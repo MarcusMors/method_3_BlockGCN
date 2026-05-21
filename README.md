@@ -52,6 +52,7 @@ Put downloaded data into the following directory structure:
 
 ```
 - data/
+   <img src="fig1.png" alt="drawing" width="450"/>
   - NW-UCLA/
     - all_sqe
       ... # raw data of NW-UCLA
