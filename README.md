@@ -70,6 +70,7 @@ Put downloaded data into the following directory structure:
 - Generate NTU RGB+D 60 or NTU RGB+D 120 dataset:
 
 ```
+ E:\pfc_methods\method_3_BlockGCN>venv\Scripts\activate #activate python environment
  cd ./data/ntu # or cd ./data/ntu120
  # Get skeleton of each performer
  python get_raw_skes_data.py

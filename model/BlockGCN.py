@@ -359,10 +359,16 @@ class Model(nn.Module):
 
         self.num_class = num_class
         self.num_point = num_point
+        # 2. Input to Initial Embedding
+        # Normalize across all joints
         self.data_bn = nn.BatchNorm1d(num_person * 128 * num_point)
 
+        # 3D coords → 128-dim features
         self.to_joint_embedding = nn.Linear(in_channels, 128)
+        # Learnable per-joint position bias (1, 25, 128)
         self.pos_embedding = nn.Parameter(torch.randn(1, self.num_point, 128))
+        
+        # 3. Stacked layers
         self.l1 = TCN_GCN_unit(128, 128, A, adaptive=adaptive, alpha=alpha)
         self.l2 = TCN_GCN_unit(128, 128, A, adaptive=adaptive, alpha=alpha)
         self.l3 = TCN_GCN_unit(128, 128, A, adaptive=adaptive, alpha=alpha)
@@ -373,6 +379,8 @@ class Model(nn.Module):
         self.l8 = TCN_GCN_unit(256, 256, A, stride=2, adaptive=adaptive, alpha=alpha)
         self.l9 = TCN_GCN_unit(256, 256, A, adaptive=adaptive, alpha=alpha)
         self.l10 = TCN_GCN_unit(256, 256, A, adaptive=adaptive, alpha=alpha)
+        
+        
         self.t0 = TopoTrans(out_dim=128)
         self.t1 = TopoTrans(out_dim=128)
         self.t2 = TopoTrans(out_dim=128)
@@ -385,6 +393,7 @@ class Model(nn.Module):
         self.t9 = TopoTrans(out_dim=256)
         self.topo = Topo()
         
+        # 4. Classifier
         self.fc = nn.Linear(256, num_class)
         nn.init.normal_(self.fc.weight, 0, math.sqrt(2. / num_class))
         bn_init(self.data_bn, 1)
@@ -418,6 +427,7 @@ class Model(nn.Module):
         x = self.l9(x + self.t8(a)) 
         x = self.l10(x + self.t9(a))
 
+        # 4. Global Temporal-Spatial Pooling
         # for cross entropy loss
         # # N*M,C,T,V
         c_new = x.size(1)

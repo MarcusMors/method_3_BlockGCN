@@ -16,7 +16,7 @@ The optimal LR is typically:
 - Well below where loss starts increasing ( divergence region )
 
 Usage:
-    python lr_range_test.py \
+    python ./blockgcn_tools/lr_range_test.py \
         --config config/nturgbd-cross-subject/default.yaml \
         --batch-size 64 \
         --device 0
@@ -42,13 +42,39 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-sys.path.insert(0, str(Path(__file__).parent))
+# ---------------------------------------------------------------------------
+# Fix: add torchlight package directory directly to sys.path to bypass
+# broken editable install. The torchlight/ folder (containing the inner
+# torchlight/ Python package) must be on the path before the import.
+# ---------------------------------------------------------------------------
+_PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(_PROJECT_ROOT / 'torchlight'))   # torchlight pkg dir
+sys.path.insert(0, str(_PROJECT_ROOT))                    # project root
+sys.path.insert(0, str(Path(__file__).parent))            # blockgcn_tools
 
-from torchlight import DictAction
-import resource
+# from torchlight import DictAction
+class DictAction(argparse.Action):
+    def __init__(self, option_strings, dest, nargs=None, **kwargs):
+        if nargs is not None:
+            raise ValueError("nargs not allowed")
+        super(DictAction, self).__init__(option_strings, dest, **kwargs)
 
-rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
-resource.setrlimit(resource.RLIMIT_NOFILE, (2048, rlimit[1]))
+    def __call__(self, parser, namespace, values, option_string=None):
+        input_dict = eval(f'dict({values})')  #pylint: disable=W0123
+        output_dict = getattr(namespace, self.dest)
+        for k in input_dict:
+            output_dict[k] = input_dict[k]
+        setattr(namespace, self.dest, output_dict)
+
+
+# resource module is Unix-only; skip on Windows
+if sys.platform != 'win32':
+    import resource
+    try:
+        rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
+        resource.setrlimit(resource.RLIMIT_NOFILE, (2048, rlimit[1]))
+    except (ValueError, OSError):
+        pass
 
 
 def import_class(import_str):
@@ -120,10 +146,6 @@ class LRFinder:
             (k, v.clone().detach())
             for k, v in self.model.state_dict().items()
         )
-        initial_optimizer_state = [
-            OrderedDict((k, v.clone().detach()) for k, v in group.items())
-            for group in self.optimizer.state_dict()['state'].values()
-        ] if self.optimizer.state_dict()['state'] else []
 
         # Learning rate multiplier per iteration
         lr_mult = (end_lr / start_lr) ** (1 / num_iter)
@@ -314,7 +336,7 @@ def main():
 
     # Build data loader
     FeederClass = import_class(config.get('feeder', 'feeders.feeder_ntu.Feeder'))
-    train_feeder = Feeder(**config.get('train_feeder_args', {}))
+    train_feeder = FeederClass(**config.get('train_feeder_args', {}))
     train_loader = torch.utils.data.DataLoader(
         dataset=train_feeder,
         batch_size=args.batch_size,
