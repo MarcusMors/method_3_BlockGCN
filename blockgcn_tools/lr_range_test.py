@@ -19,7 +19,8 @@ Usage:
     python ./blockgcn_tools/lr_range_test.py \
         --config config/nturgbd-cross-subject/default.yaml \
         --batch-size 64 \
-        --device 0
+        --device 0 \
+        --dataset ntu120
 
 Output:
 - lr_range_test.png — Plot of loss vs. learning rate
@@ -66,7 +67,6 @@ class DictAction(argparse.Action):
             output_dict[k] = input_dict[k]
         setattr(namespace, self.dest, output_dict)
 
-
 # resource module is Unix-only; skip on Windows
 if sys.platform != 'win32':
     import resource
@@ -89,6 +89,11 @@ def parse_args():
     parser.add_argument('--batch-size', type=int, default=64, help='Batch size')
     parser.add_argument('--device', type=int, default=0, help='GPU device ID')
     parser.add_argument('--num-worker', type=int, default=4, help='DataLoader workers')
+    parser.add_argument('--dataset', default='ntu120', choices=['ntu60', 'ntu120'],
+                        help='Dataset to use (ntu60 or ntu120). Overrides data paths in config.')
+    parser.add_argument('--split', default='cross-subject', choices=['cross-subject', 'cross-set', 'cross-view'],
+                        help='Evaluation split for NTU dataset. cross-subject and cross-set apply to NTU120; '
+                             'cross-subject and cross-view apply to NTU60.')
     parser.add_argument('--lr-start', type=float, default=1e-7,
                         help='Starting learning rate (very small)')
     parser.add_argument('--lr-end', type=float, default=10.0,
@@ -111,6 +116,35 @@ def init_seed(seed):
     np.random.seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = True
+
+
+def resolve_ntu_data_path(dataset, split):
+    """
+    Resolve the correct .npz data path based on dataset (ntu60/ntu120) and split.
+    Returns (train_path, test_path) tuple.
+    """
+    if dataset == 'ntu120':
+        if split == 'cross-subject':
+            train_path = 'data/ntu120/NTU120_CSub.npz'
+            test_path = 'data/ntu120/NTU120_CSub.npz'
+        elif split == 'cross-set':
+            train_path = 'data/ntu120/NTU120_CSet.npz'
+            test_path = 'data/ntu120/NTU120_CSet.npz'
+        else:
+            raise ValueError(f"NTU120 does not support '{split}' split. Use 'cross-subject' or 'cross-set'.")
+    elif dataset == 'ntu60':
+        if split == 'cross-subject':
+            train_path = 'data/ntu60/NTU60_CS.npz'
+            test_path = 'data/ntu60/NTU60_CS.npz'
+        elif split == 'cross-view':
+            train_path = 'data/ntu60/NTU60_CV.npz'
+            test_path = 'data/ntu60/NTU60_CV.npz'
+        else:
+            raise ValueError(f"NTU60 does not support '{split}' split. Use 'cross-subject' or 'cross-view'.")
+    else:
+        raise ValueError(f"Unknown dataset: {dataset}")
+
+    return train_path, test_path
 
 
 class LRFinder:
@@ -328,6 +362,26 @@ def main():
     with open(args.config, 'r') as f:
         config = yaml.safe_load(f)
 
+    # ---------------------------------------------------------------
+    # NTU DATASET PATH OVERRIDE
+    # If --dataset is ntu120 (default), override the data paths and
+    # num_class so the user doesn't need separate config files.
+    # ---------------------------------------------------------------
+    train_path, test_path = resolve_ntu_data_path(args.dataset, args.split)
+    config['train_feeder_args']['data_path'] = train_path
+    config['test_feeder_args']['data_path'] = test_path
+
+    # Override num_class for NTU120
+    if args.dataset == 'ntu120':
+        config['model_args']['num_class'] = 120
+        print(f"[INFO] Using NTU120 dataset ({args.split}):")
+    else:
+        print(f"[INFO] Using NTU60 dataset ({args.split}):")
+
+    print(f"  Train data: {train_path}")
+    print(f"  Test data:  {test_path}")
+    print(f"  Num classes: {config['model_args']['num_class']}")
+
     # Build model
     model_args = config.get('model_args', {})
     ModelClass = import_class(config.get('model', 'model.BlockGCN.Model'))
@@ -337,15 +391,20 @@ def main():
     # Build data loader
     FeederClass = import_class(config.get('feeder', 'feeders.feeder_ntu.Feeder'))
     train_feeder = FeederClass(**config.get('train_feeder_args', {}))
+    
+    num_workers = args.num_worker
+    prefetch_factor = 2 if num_workers > 0 else None
+    worker_init_fn = None  # init_seed already called above; skip for Windows safety
+
     train_loader = torch.utils.data.DataLoader(
         dataset=train_feeder,
         batch_size=args.batch_size,
         shuffle=True,
         pin_memory=True,
-        prefetch_factor=2,
-        num_workers=args.num_worker,
+        prefetch_factor=prefetch_factor,
+        num_workers=num_workers,
         drop_last=True,
-        worker_init_fn=lambda x: init_seed(args.seed + x)
+        worker_init_fn=worker_init_fn
     )
 
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)

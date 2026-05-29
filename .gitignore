@@ -1,5 +1,7 @@
 data/**
 data/
+*.log
+**/**.log
 
 venv
 .venv

@@ -1,10 +1,11 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-import os.path as osp
-import os
-import numpy as np
-import pickle
 import logging
+import os
+import os.path as osp
+import pickle
+
+import numpy as np
 
 
 def get_raw_bodies_data(skes_path, ske_name, frames_drop_skes, frames_drop_logger):
@@ -111,7 +112,7 @@ def get_raw_skes_data():
     print('Found %d available skeleton files.' % num_files)
 
     raw_skes_data = []
-    frames_cnt = np.zeros(num_files, dtype=_)
+    frames_cnt = np.zeros(num_files, dtype=np.int_)
 
     for (idx, ske_name) in enumerate(skes_name):
         bodies_data = get_raw_bodies_data(skes_path, ske_name, frames_drop_skes, frames_drop_logger)
