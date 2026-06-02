@@ -1,9 +1,9 @@
-# command line: main_windows.py --config config/nturgbd-cross-subject/default.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/xsub/joint --device 0 --batch-size 64 --num-worker 4
+# command line: main_windows.py --weights work_dir\ntu60\xsub\joint\runs-26-16276.pt --start-epoch 26 --config config\nturgbd-cross-subject\default.yaml --model model.BlockGCN.Model --work-dir work_dir\ntu60\xsub\joint --device 0 --batch-size 64 --num-worker 0
 
 alpha: false
 base_lr: 0.0437
 batch_size: 64
-config: config/nturgbd-cross-subject/default.yaml
+config: config\nturgbd-cross-subject\default.yaml
 device:
 - 0
 ema: false
@@ -54,7 +54,7 @@ model_saved_name: ''
 momentum: 0.9
 nesterov: true
 num_epoch: 200
-num_worker: 4
+num_worker: 0
 optimizer: SGD
 phase: train
 print_log: true
@@ -65,7 +65,7 @@ seed: 1
 show_topk:
 - 1
 - 5
-start_epoch: 0
+start_epoch: 26
 step:
 - 110
 - 120
@@ -96,5 +96,5 @@ train_feeder_args:
   window_size: 64
 warm_up_epoch: 5
 weight_decay: 0.0004
-weights: null
-work_dir: work_dir/ntu60/xsub/joint
+weights: work_dir\ntu60\xsub\joint\runs-26-16276.pt
+work_dir: work_dir\ntu60\xsub\joint

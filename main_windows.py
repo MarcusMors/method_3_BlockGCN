@@ -310,6 +310,8 @@ class Processor():
                     self.model,
                     device_ids=self.arg.device,
                     output_device=self.output_device)
+        # Always get the underlying model (works with or without DataParallel)
+        self.base_model = self.model.module if hasattr(self.model, 'module') else self.model
         if self.arg.ema:
             Model = import_class(self.arg.model)
             self.model_ema = Model(**self.arg.model_args).cuda(self.output_device)
@@ -481,7 +483,7 @@ class Processor():
 
         # mix_precision is slower for this model!!!
         use_amp = True
-        scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+        scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
         # torch.autograd.set_detect_anomaly(True)
 
         soft_label_emma = 0
@@ -490,6 +492,7 @@ class Processor():
             with torch.no_grad():
                 data = data.float().cuda(self.output_device)
                 label = label.long().cuda(self.output_device)
+                joint = joint.float().cuda(self.output_device)
             timer['dataloader'] += self.split_time()
 
             # print(data[0,:,0,:,0])
@@ -509,14 +512,14 @@ class Processor():
                     return loss.mean()
 
 
-            with torch.cuda.amp.autocast(enabled=use_amp):
+            with torch.amp.autocast('cuda', enabled=use_amp):
 
-                output, z = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class), joint)
+                output, z = self.model(data, F.one_hot(label, num_classes=self.base_model.num_class), joint)
                 # output, z = self.model(data, F.one_hot(label, num_classes=self.model.num_class), joint)
 
                 ## for mmd loss
-                # output, y, z = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class))
-                # mmd_loss, l2_z_mean, z_mean = get_mmd_loss(z, self.model.module.z_prior, label, self.model.module.num_class)
+                # output, y, z = self.model(data, F.one_hot(label, num_classes=self.base_model.num_class))
+                # mmd_loss, l2_z_mean, z_mean = get_mmd_loss(z, self.model.module.z_prior, label, self.base_model.num_class)
 
                 loss = self.loss(output, label)
             loss2 = torch.zeros_like(loss).cuda(loss.device)
@@ -595,15 +598,16 @@ class Processor():
                 with torch.no_grad():
                     data = data.float().cuda(self.output_device)
                     label = label.long().cuda(self.output_device)
+                    joint = joint.float().cuda(self.output_device)
                     # for mmd
-                    output, y = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class), joint)
+                    output, y = self.model(data, F.one_hot(label, num_classes=self.base_model.num_class), joint)
                     # output, y = self.model(data, F.one_hot(label, num_classes=self.model.num_class))
 
 
 
                     if arg.ema:
                         self.model_ema.cuda(self.output_device)
-                        output_ema, z_ema = self.model_ema(data, F.one_hot(label, num_classes=self.model.module.num_class))
+                        output_ema, z_ema = self.model_ema(data, F.one_hot(label, num_classes=self.base_model.num_class))
                         # output_ema, z_ema = self.model_ema(data,
                         #                                    F.one_hot(label, num_classes=self.model.num_class))
                     loss = self.loss(output, label)

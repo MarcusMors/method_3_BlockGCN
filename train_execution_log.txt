@@ -1,0 +1,41 @@
+# from 4.4 Training in  https://www.kimi.com/chat/19e4a82f-2c32-8638-8000-093f0444c9cd?chat_enter_method=home
+python main.py --config config/nturgbd-cross-subject/default.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/xsub/joint --device 0 --batch-size 64 --num-worker 4
+
+error obtained:
+  0%|           | 0/626 [00:00<?, ?it/s]E:\pfc_methods\method_3_BlockGCN\main_windows.py:484: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+E:\pfc_methods\method_3_BlockGCN\main_windows.py:512: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=use_amp):
+  0%|           | 0/626 [01:49<?, ?it/s]
+Traceback (most recent call last):
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 807, in <module>
+    processor.start()
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 737, in start
+    self.train(epoch, save_model=save_model)
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 514, in train
+    output, z = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class), joint)
+  File "E:\pfc_methods\method_3_BlockGCN\venv\lib\site-packages\torch\nn\modules\module.py", line 1968, in __getattr__
+    raise AttributeError(
+AttributeError: 'Model' object has no attribute 'module'. Did you mean: 'modules'?
+All training completed!
+
+i changed module to modules, however this was the result:
+ Tue Jun  2 03:39:28 2026 ] # Parameters: 1372780
+[ Tue Jun  2 03:39:28 2026 ] Training epoch: 1
+  0%|           | 0/626 [00:00<?, ?it/s]E:\pfc_methods\method_3_BlockGCN\main_windows.py:484: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+E:\pfc_methods\method_3_BlockGCN\main_windows.py:512: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=use_amp):
+  0%|           | 0/626 [02:33<?, ?it/s]
+Traceback (most recent call last):
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 807, in <module>
+    processor.start()
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 737, in start
+    self.train(epoch, save_model=save_model)
+  File "E:\pfc_methods\method_3_BlockGCN\main_windows.py", line 514, in train
+    output, z = self.model(data, F.one_hot(label, num_classes=self.model.modules.num_class), joint)
+AttributeError: 'function' object has no attribute 'num_class'
+
+
+
+python -c "import torch ; print(f'PyTorch: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}');print(f'CUDA version: {torch.version.cuda}');print(f'GPU: {torch.cuda.get_device_name(0)}');print(f'GPU capability: sm_{torch.cuda.get_device_capability(0)[0]}{torch.cuda.get_device_capability(0)[1]}')"
