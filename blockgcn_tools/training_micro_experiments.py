@@ -22,7 +22,8 @@ Usage:
         --mode find_epochs \
         --batch-size 64 --base-lr 0.05 \
         --device 0
-
+    python training_micro_experiments.py --config config/nturgbd-cross-subject/default.yaml --mode find_epochs --batch-size 64 --base-lr 0.05 --device 0
+    
     # Experiment 2: Find best LR decay points
     python training_micro_experiments.py \
         --config config/nturgbd-cross-subject/default.yaml \
@@ -44,27 +45,29 @@ Output:
 """
 
 import argparse
+import os
+import shutil
 import sys
 import time
-import shutil
-import os
-from pathlib import Path
 from collections import OrderedDict, defaultdict
+from pathlib import Path
 
+import matplotlib
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
 import yaml
-import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from torchlight import DictAction
 import resource
+
+from torchlight import DictAction
 
 rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
 resource.setrlimit(resource.RLIMIT_NOFILE, (2048, rlimit[1]))
