@@ -1,31 +1,35 @@
 #!/usr/bin/env python
 from __future__ import print_function
+
 import argparse
+import copy
+import csv
+import glob
 import inspect
 import os
 import pickle
 import random
+import resource
 import shutil
 import sys
 import time
-from collections import OrderedDict
 import traceback
-from sklearn.metrics import confusion_matrix
-import csv
+from collections import OrderedDict
+
 import numpy as np
-import glob
-import torch.nn.functional as F
 import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 import yaml
+from sklearn.metrics import confusion_matrix
 from tensorboardX import SummaryWriter
-from tqdm import tqdm
+
 # from cosine_lr_schedueler import CosineLRScheduler
 from torchlight import DictAction
-import resource
-import copy
+from tqdm import tqdm
+
 # from torch import linalg as LA
 
 sys.path.insert(0, "~/anaconda3/envs/diffusion/lib/python3.8/site-packages/click")
@@ -255,7 +259,7 @@ def get_parser():
 
 
 class Processor():
-    """ 
+    """
         Processor for Skeleton-based Action Recgnition
     """
 
@@ -785,7 +789,7 @@ if __name__ == '__main__':
     p = parser.parse_args()
     if p.config is not None:
         with open(p.config, 'r') as f:
-            default_arg = yaml.load(f)
+            default_arg = yaml.safe_load(f)
         key = vars(p).keys()
         for k in default_arg.keys():
             if k not in key:
