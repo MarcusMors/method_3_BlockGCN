@@ -1,9 +1,9 @@
-# command line: main_windows.py --config config\nturgbd-cross-subject\bone.yaml --model model.BlockGCN.Model --work-dir work_dir\ntu60\xsub\bone --device 0 --batch-size 64 --num-worker 4
+# command line: main_unix.py --config config/nturgbd-cross-subject/bone.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/xsub/bone --device 0 --batch-size 64 --test-batch-size 64 --num-epoch 140 --base-lr 0.0437 --weights work_dir/ntu60/xsub/bone/runs-54-33804.pt --start-epoch 54
 
 alpha: false
 base_lr: 0.0437
 batch_size: 64
-config: config\nturgbd-cross-subject\bone.yaml
+config: config/nturgbd-cross-subject/bone.yaml
 device:
 - 0
 ema: false
@@ -27,7 +27,7 @@ model_args:
 model_saved_name: ''
 momentum: 0.9
 nesterov: true
-num_epoch: 200
+num_epoch: 140
 num_worker: 4
 optimizer: SGD
 phase: train
@@ -39,7 +39,7 @@ seed: 1
 show_topk:
 - 1
 - 5
-start_epoch: 0
+start_epoch: 54
 step:
 - 110
 - 120
@@ -70,5 +70,5 @@ train_feeder_args:
   window_size: 64
 warm_up_epoch: 5
 weight_decay: 0.0004
-weights: null
-work_dir: work_dir\ntu60\xsub\bone
+weights: work_dir/ntu60/xsub/bone/runs-54-33804.pt
+work_dir: work_dir/ntu60/xsub/bone

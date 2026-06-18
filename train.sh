@@ -4,7 +4,7 @@
 python main.py --config config/nturgbd-cross-subject/default.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/xsub/joint --device 0 --batch-size 64 --num-worker 4
 
 # original
-python main.py --config config/nturgbd-cross-subject/default.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/csub/BlockGCN_decay_110_120_140_epochs_new_8heads_deterministic --device 0
+# python main.py --config config/nturgbd-cross-subject/default.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/csub/BlockGCN_decay_110_120_140_epochs_new_8heads_deterministic --device 0 --batch-size 64
 
 
 ##

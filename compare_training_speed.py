@@ -14,16 +14,22 @@ Usage:
 
     # Specify output file:
     python compare_training_speed.py --win-path <path> --wsl-path <path> --output comparison_report.txt
+
+MARCUS USAGE in windows:
+E:\pfc_methods\method_3_BlockGCN>python compare_training_speed.py --win-path "E:/pfc_methods/method_3_BlockGCN/work_dir/ntu60/xsub/joint" --wsl-path "\\wsl.localhost\Ubuntu-24.04\home\marcus\+projects\pfc\method_3_BlockGCN\work_dir\ntu60\xsub\bone"
+
+you extract the windows 11 path of the wsl training epochs by opening the wsl directory with explorer.exe, then you click at the path at the top of explorer and pass it as parameter for --wsl-path.
+
 """
 
+import argparse
+import glob
 import os
 import re
 import sys
-import glob
-import argparse
-from pathlib import Path
-from datetime import datetime, timedelta
 from collections import OrderedDict
+from datetime import datetime, timedelta
+from pathlib import Path
 
 # Try to import tensorboard event reader
 try:
@@ -221,7 +227,9 @@ def read_tensorboard_events_simple(event_file):
         return events_data
 
     try:
-        from tensorboard.backend.event_processing.event_file_loader import RawEventFileLoader
+        from tensorboard.backend.event_processing.event_file_loader import (
+            RawEventFileLoader,
+        )
         from tensorboard.compat.proto import event_pb2
 
         loader = RawEventFileLoader(event_file)

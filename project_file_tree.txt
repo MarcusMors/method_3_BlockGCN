@@ -1,0 +1,92 @@
+.
+├── blockgc.png
+├── blockgcn_tools
+│  ├── batch_size_finder.py
+│  ├── embed_DictAction.txt
+│  ├── lr_range_test.py
+│  ├── requirements.txt
+│  └── training_micro_experiments.py
+├── cb
+├── config
+│  ├── nturgbd-cross-subject
+│  │  ├── bone.yaml
+│  │  ├── bone_vel.yaml
+│  │  ├── default.yaml
+│  │  └── vel.yaml
+│  ├── nturgbd-cross-view
+│  │  ├── bone.yaml
+│  │  ├── bone_vel.yaml
+│  │  ├── default.yaml
+│  │  └── vel.yaml
+│  ├── nturgbd120-cross-set
+│  │  ├── bone.yaml
+│  │  ├── bone_vel.yaml
+│  │  ├── default.yaml
+│  │  └── vel.yaml
+│  └── nturgbd120-cross-subject
+│     ├── bone.yaml
+│     ├── bone_vel.yaml
+│     ├── default.yaml
+│     └── vel.yaml
+├── data
+│  ├── ntu120
+│  │  ├── get_raw_denoised_data.py
+│  │  ├── get_raw_skes_data.py
+│  │  ├── NTU120_CSet.npz
+│  │  ├── NTU120_CSub.npz
+│  │  ├── seq_transformation.py
+│  │  └── statistics
+│  │     ├── camera.txt
+│  │     ├── label.txt
+│  │     ├── NTU_RGBD120_samples_with_missing_skeletons.txt
+│  │     ├── performer.txt
+│  │     ├── replication.txt
+│  │     ├── setup.txt
+│  │     └── skes_available_name.txt
+│  └── NW-UCLA
+│     └── val_label.pkl
+├── ensemble.py
+├── ensemble.sh
+├── errors_when_running_training.txt
+├── evaluate.sh
+├── feeders
+│  ├── __init__.py
+│  ├── bone_pairs.py
+│  ├── feeder_ntu.py
+│  ├── feeder_ucla.py
+│  └── tools.py
+├── fig1.png
+├── file_tree.txt
+├── graph
+│  ├── __init__.py
+│  ├── ntu_rgb_d.py
+│  ├── tools.py
+│  └── ucla.py
+├── intro.png
+├── LICENSE
+├── lr_range_test_at_batch_size_64.png
+├── lr_range_test_at_batch_size_128.png
+├── lr_range_test_at_batch_size_264.png
+├── main_unix.py
+├── main_windows.py
+├── model
+│  ├── __init__.py
+│  ├── __pycache__
+│  │  ├── __init__.cpython-312.pyc
+│  │  ├── __init__.cpython-313.pyc
+│  │  └── BlockGCN.cpython-312.pyc
+│  └── BlockGCN.py
+├── project_file_tree.txt
+├── README.md
+├── torchlight_src
+│  ├── setup.py
+│  └── torchlight
+│     ├── __init__.py
+│     ├── gpu.py
+│     └── util.py
+├── train.sh
+├── train_execution_log.txt
+├── train_modalities_unix.sh
+├── train_windows.bat
+├── train_windows.txt
+└── update_config.py

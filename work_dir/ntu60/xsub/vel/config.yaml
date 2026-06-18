@@ -1,9 +1,9 @@
-# command line: main_windows.py --config config\nturgbd-cross-subject\vel.yaml --model model.BlockGCN.Model --work-dir work_dir\ntu60\xsub\vel --device 0 --batch-size 64 --num-worker 4
+# command line: main_unix.py --config config/nturgbd-cross-subject/vel.yaml --model model.BlockGCN.Model --work-dir work_dir/ntu60/xsub/vel --device 0 --batch-size 64 --test-batch-size 64 --num-epoch 140 --base-lr 0.0437
 
 alpha: false
 base_lr: 0.0437
 batch_size: 64
-config: config\nturgbd-cross-subject\vel.yaml
+config: config/nturgbd-cross-subject/vel.yaml
 device:
 - 0
 ema: false
@@ -27,7 +27,7 @@ model_args:
 model_saved_name: ''
 momentum: 0.9
 nesterov: true
-num_epoch: 200
+num_epoch: 140
 num_worker: 4
 optimizer: SGD
 phase: train
@@ -71,4 +71,4 @@ train_feeder_args:
 warm_up_epoch: 5
 weight_decay: 0.0004
 weights: null
-work_dir: work_dir\ntu60\xsub\vel
+work_dir: work_dir/ntu60/xsub/vel

@@ -37,6 +37,114 @@ sys.path.insert(0, "~/anaconda3/envs/diffusion/lib/python3.8/site-packages/click
 "https://github.com/ajbrock/BigGAN-PyTorch/blob/master/utils.py"
 
 
+# ---------------------------------------------------------------------------
+# Monkey-patch torch.cat to auto-move tensors to the same device.
+# This fixes a bug in torch_topological (used by BlockGCN's topo layer)
+# where intermediate tensors/params are on CPU while the input is on CUDA.
+#
+# Strategy: prefer non-CPU devices (e.g. cuda) over CPU.  This handles the
+# case where the first tensor is a CPU parameter but later tensors are on
+# the GPU (the input).
+# ---------------------------------------------------------------------------
+_orig_torch_cat = torch.cat
+
+def _patched_torch_cat(tensors, dim=0, *, out=None):
+    """Auto-align devices before concatenating — CUDA preferred over CPU."""
+    # Flatten in case a nested list/tuple is passed
+    flat = []
+    def _flatten(x):
+        if isinstance(x, (list, tuple)):
+            for item in x:
+                _flatten(item)
+        else:
+            flat.append(x)
+    _flatten(tensors)
+
+    target_device = None
+    # Prefer non-CPU device (e.g., cuda) over CPU
+    for t in flat:
+        if isinstance(t, torch.Tensor):
+            if t.device.type != 'cpu':
+                target_device = t.device
+                break
+    # Fallback: if all are CPU, stay on CPU
+    if target_device is None:
+        for t in flat:
+            if isinstance(t, torch.Tensor):
+                target_device = t.device
+                break
+
+    if target_device is not None:
+        aligned = []
+        for t in flat:
+            if isinstance(t, torch.Tensor) and t.device != target_device:
+                aligned.append(t.to(target_device))
+            else:
+                aligned.append(t)
+        flat = aligned
+    return _orig_torch_cat(flat, dim, out=out)
+
+torch.cat = _patched_torch_cat
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Monkey-patch torch_topological's StructureElementLayer to move its
+# parameters to the same device as the input tensor on each forward call.
+# BlockGCN may not have registered this layer as a proper submodule, so its
+# parameters never get moved to CUDA when the model is sent to the GPU.
+# ---------------------------------------------------------------------------
+def _patch_structure_element_layer():
+    try:
+        from torch_topological.nn.layers import StructureElementLayer
+        _orig_forward = StructureElementLayer.forward
+
+        def _device_aware_forward(self, x):
+            target = x.device
+            if self.centres.device != target:
+                self.centres.data = self.centres.data.to(target)
+            if self.sharpness.device != target:
+                self.sharpness.data = self.sharpness.data.to(target)
+            return _orig_forward(self, x)
+
+        StructureElementLayer.forward = _device_aware_forward
+    except Exception:
+        pass  # torch_topological not installed or API changed
+
+_patch_structure_element_layer()
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Monkey-patch BlockGCN's Topo class to ensure output is on the same device
+# as the input. VietorisRipsComplex computes persistence diagrams on CPU, so
+# the entire Topo.forward pipeline outputs CPU tensors. This causes a device
+# mismatch when TopoTrans (which IS on CUDA) receives them.
+# ---------------------------------------------------------------------------
+def _patch_topo_forward():
+    try:
+        # BlockGCN's Topo class is in model.BlockGCN
+        from model.BlockGCN import Topo
+        _orig_topo_forward = Topo.forward
+
+        def _device_aware_topo_forward(self, x):
+            target_device = x.device
+            result = _orig_topo_forward(self, x)
+            if result.device != target_device:
+                result = result.to(target_device)
+            return result
+
+        Topo.forward = _device_aware_topo_forward
+    except Exception:
+        pass  # Topo class not found or patch failed
+
+_patch_topo_forward()
+# ---------------------------------------------------------------------------
+
+
+def _unwrap_model(model):
+    """Return the underlying model, whether wrapped in DataParallel or not."""
+    return model.module if hasattr(model, 'module') else model
+
+
 def ema_update(source, target, decay=0.99, start_itr=20, itr=None):
     # If an iteration counter is provided and itr is less than the start itr,
     # peg the ema weights to the underlying weights.
@@ -477,7 +585,7 @@ class Processor():
 
         # mix_precision is slower for this model!!!
         use_amp = True
-        scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+        scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
         # torch.autograd.set_detect_anomaly(True)
 
         soft_label_emma = 0
@@ -485,6 +593,7 @@ class Processor():
             self.global_step += 1
             with torch.no_grad():
                 data = data.float().cuda(self.output_device)
+                joint = joint.float().cuda(self.output_device)
                 label = label.long().cuda(self.output_device)
             timer['dataloader'] += self.split_time()
 
@@ -505,14 +614,14 @@ class Processor():
                     return loss.mean()
 
 
-            with torch.cuda.amp.autocast(enabled=use_amp):
+            with torch.amp.autocast('cuda', enabled=use_amp):
 
-                output, z = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class), joint)
+                output, z = self.model(data, F.one_hot(label, num_classes=_unwrap_model(self.model).num_class), joint)
                 # output, z = self.model(data, F.one_hot(label, num_classes=self.model.num_class), joint)
 
                 ## for mmd loss
-                # output, y, z = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class))
-                # mmd_loss, l2_z_mean, z_mean = get_mmd_loss(z, self.model.module.z_prior, label, self.model.module.num_class)
+                # output, y, z = self.model(data, F.one_hot(label, num_classes=_unwrap_model(self.model).num_class))
+                # mmd_loss, l2_z_mean, z_mean = get_mmd_loss(z, _unwrap_model(self.model).z_prior, label, _unwrap_model(self.model).num_class)
 
                 loss = self.loss(output, label)
             loss2 = torch.zeros_like(loss).cuda(loss.device)
@@ -590,16 +699,17 @@ class Processor():
                     label_list_ema.append(label)
                 with torch.no_grad():
                     data = data.float().cuda(self.output_device)
+                    joint = joint.float().cuda(self.output_device)
                     label = label.long().cuda(self.output_device)
                     # for mmd
-                    output, y = self.model(data, F.one_hot(label, num_classes=self.model.module.num_class), joint)
+                    output, y = self.model(data, F.one_hot(label, num_classes=_unwrap_model(self.model).num_class), joint)
                     # output, y = self.model(data, F.one_hot(label, num_classes=self.model.num_class))
 
 
 
                     if arg.ema:
                         self.model_ema.cuda(self.output_device)
-                        output_ema, z_ema = self.model_ema(data, F.one_hot(label, num_classes=self.model.module.num_class))
+                        output_ema, z_ema = self.model_ema(data, F.one_hot(label, num_classes=_unwrap_model(self.model_ema).num_class))
                         # output_ema, z_ema = self.model_ema(data,
                         #                                    F.one_hot(label, num_classes=self.model.num_class))
                     loss = self.loss(output, label)
@@ -765,9 +875,9 @@ class Processor():
             wf = self.arg.weights.replace('.pt', '_wrong.txt')
             rf = self.arg.weights.replace('.pt', '_right.txt')
 
-            # mask = self.model.module.joint_label
+            # mask = _unwrap_model(self.model).joint_label
             #
-            # A = torch.tensor(self.model.module.graph.A).cuda(mask.device).float()
+            # A = torch.tensor(_unwrap_model(self.model).graph.A).cuda(mask.device).float()
             # A[A!=0] = 1
             #
             # ind = torch.argmax(mask, dim=0)

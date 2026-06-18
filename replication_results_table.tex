@@ -1,0 +1,24 @@
+\begin{table*}[t]
+\centering
+\caption{BlockGCN replication results on NTU RGB+D 60. Training: SGD (Nesterov $\mu$=0.9, weight decay 0.0004), batch size 64, base LR 0.0437, step decay at epochs 110 and 120, warm-up 5 epochs. Hardware: NVIDIA GeForce RTX~5060~Ti (16~GB GDDR6). Best epoch searched within first ALL epochs. Paper column shows per-modality Top-1 reported in Zhou~et~al.~(CVPR 2024).}
+\label{tab:blockgcn-replication}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llccccc@{}}
+\toprule
+\textbf{Dataset} & \textbf{Split} & \textbf{Modality} & \textbf{Best Epoch} & \textbf{Top-1 (\%)} & \textbf{Top-5 (\%)} & \textbf{Paper Top-1 (\%)} \\
+\midrule
+NTU60 & X-Sub & Joint        &         159 &         90.79 &         98.47 &              90.0 \\
+NTU60 & X-Sub & Bone         &         138 &         90.91 &         98.47 &              90.4 \\
+NTU60 & X-Sub & Vel          &         137 &         88.46 &         97.96 &              88.1 \\
+NTU60 & X-Sub & Bone Vel     &         117 &         88.14 &         97.86 &              83.8 \\
+NTU60 & X-View & Joint        &         140 &         95.25 &         99.45 &              96.1 \\
+NTU60 & X-View & Bone         &         131 &         95.43 &         99.35 &              96.4 \\
+NTU60 & X-View & Vel          &         137 &         93.02 &         99.20 &              95.4 \\
+NTU60 & X-View & Bone Vel     &         125 &         92.78 &         99.22 &              92.7 \\
+\midrule
+NTU60 & X-Sub & \textbf{Ensemble (4-mod.)} & --          & \textbf{      89.58} & --            & \textbf{             92.8} \\
+NTU60 & X-View & \textbf{Ensemble (4-mod.)} & --          & \textbf{      94.12} & --            & \textbf{             97.0} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
