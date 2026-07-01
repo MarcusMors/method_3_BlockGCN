@@ -1,0 +1,4 @@
+group,correct,total,accuracy
+Daily,93,3285,0.028311
+Health,68,909,0.074807
+Mutual,98,1691,0.057954

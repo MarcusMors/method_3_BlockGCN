@@ -1,0 +1,22 @@
+Top Confused Pairs for joint on NTU60 xsub
+======================================================================
+  13x  shake head                     -> type on a keyboard
+  13x  point finger at other          -> rub two hands together
+  12x  walking towards other          -> hugging other person
+  11x  drop                           -> touch head (headache)
+  11x  take off jacket                -> playing with phone
+  11x  put on a hat/cap               -> put the palms together
+  11x  nod head/bow                   -> check time (from watch)
+  11x  wipe face                      -> nod head/bow
+  11x  falling down                   -> kicking something
+  11x  touch back (backache)          -> falling down
+  11x  touch neck (neckache)          -> pat on back of other
+  11x  pushing other person           -> tear up paper
+  11x  touch other's pocket           -> wear on glasses
+  11x  handshaking                    -> salute
+  11x  walking apart from other       -> giving something
+  10x  brushing hair                  -> wear on glasses
+  10x  pickup                         -> touch chest (pain)
+  10x  standing up (from sitting)     -> brushing hair
+  10x  standing up (from sitting)     -> playing with phone
+  10x  clapping                       -> drop

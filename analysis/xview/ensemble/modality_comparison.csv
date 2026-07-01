@@ -1,0 +1,16 @@
+modality,group,correct,total,accuracy
+Joint,Daily,84,3824,0.021967
+Joint,Health,99,1035,0.095652
+Joint,Mutual,104,1878,0.055378
+Bone,Daily,81,3835,0.021121
+Bone,Health,95,1009,0.094153
+Bone,Mutual,102,1875,0.054400
+JointVel,Daily,83,3791,0.021894
+JointVel,Health,92,1032,0.089147
+JointVel,Mutual,101,1879,0.053752
+BoneVel,Daily,87,3853,0.022580
+BoneVel,Health,89,1024,0.086914
+BoneVel,Mutual,103,1881,0.054758
+Ensemble,Daily,82,3839,0.021360
+Ensemble,Health,96,1016,0.094488
+Ensemble,Mutual,102,1878,0.054313

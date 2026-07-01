@@ -1,0 +1,53 @@
+❯ python3 parse_results_v2.py --max-epoch 140
+======================================================================
+BlockGCN Replication Results Parser v2
+Best-epoch search limited to epochs 1..140
+======================================================================
+
+>>> NTU60 X-Sub | Joint
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xsub/joint/log.txt
+    Evaluated epochs: 222 | Total trained: 200
+    Best epoch (≤140): 139
+    Top-1: 90.78% | Top-5: 98.41%
+
+>>> NTU60 X-Sub | Bone
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xsub/bone/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 138
+    Top-1: 90.91% | Top-5: 98.47%
+
+>>> NTU60 X-Sub | Vel
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xsub/vel/log.txt
+    Evaluated epochs: 141 | Total trained: 140
+    Best epoch (≤140): 137
+    Top-1: 88.46% | Top-5: 97.96%
+
+>>> NTU60 X-Sub | Bone Vel
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xsub/bone_vel/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 117
+    Top-1: 88.14% | Top-5: 97.86%
+
+>>> NTU60 X-View | Joint
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xview/joint/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 140
+    Top-1: 95.25% | Top-5: 99.45%
+
+>>> NTU60 X-View | Bone
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xview/bone/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 131
+    Top-1: 95.43% | Top-5: 99.35%
+
+>>> NTU60 X-View | Vel
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xview/vel/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 137
+    Top-1: 93.02% | Top-5: 99.20%
+
+>>> NTU60 X-View | Bone Vel
+    Path: /home/marcus/+projects/pfc/method_3_BlockGCN/work_dir/ntu60/xview/bone_vel/log.txt
+    Evaluated epochs: 140 | Total trained: 140
+    Best epoch (≤140): 125
+    Top-1: 92.78% | Top-5: 99.22%

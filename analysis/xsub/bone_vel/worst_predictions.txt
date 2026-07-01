@@ -1,0 +1,22 @@
+Top Confused Pairs for bone_vel on NTU60 xsub
+======================================================================
+  13x  touch other's pocket           -> wear on glasses
+  12x  drop                           -> touch head (headache)
+  12x  tear up paper                  -> brushing teeth
+  12x  hopping (one foot)             -> touch head (headache)
+  12x  shake head                     -> type on a keyboard
+  12x  giving something               -> writing
+  12x  walking towards other          -> hugging other person
+  11x  standing up (from sitting)     -> writing
+  11x  wear a shoe                    -> nod head/bow
+  11x  touch back (backache)          -> falling down
+  11x  point finger at other          -> rub two hands together
+  11x  handshaking                    -> salute
+  10x  drink water                    -> rub two hands together
+  10x  brushing hair                  -> drink water
+  10x  brushing hair                  -> wear on glasses
+  10x  brushing hair                  -> falling down
+  10x  pickup                         -> touch chest (pain)
+  10x  clapping                       -> drop
+  10x  reading                        -> punching/slapping
+  10x  take off jacket                -> playing with phone

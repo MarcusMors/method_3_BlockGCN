@@ -1,0 +1,22 @@
+Top Confused Pairs for vel on NTU60 xsub
+======================================================================
+  12x  hopping (one foot)             -> touch head (headache)
+  12x  touch other's pocket           -> wear on glasses
+  11x  wear jacket                    -> sneeze/cough
+  11x  take off a shoe                -> nausea/vomiting
+  11x  take off glasses               -> touch other's pocket
+  11x  hand waving                    -> nod head/bow
+  11x  wipe face                      -> nod head/bow
+  11x  touch back (backache)          -> falling down
+  11x  point finger at other          -> rub two hands together
+  11x  giving something               -> writing
+  11x  handshaking                    -> salute
+  11x  walking towards other          -> hugging other person
+  11x  walking apart from other       -> giving something
+  10x  brushing teeth                 -> staggering
+  10x  brushing teeth                 -> point finger at other
+  10x  pickup                         -> touch chest (pain)
+  10x  writing                        -> touch head (headache)
+  10x  tear up paper                  -> brushing teeth
+  10x  wear on glasses                -> giving something
+  10x  put on a hat/cap               -> taking a selfie

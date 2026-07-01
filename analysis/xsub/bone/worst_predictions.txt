@@ -1,0 +1,22 @@
+Top Confused Pairs for bone on NTU60 xsub
+======================================================================
+  13x  handshaking                    -> salute
+  13x  walking towards other          -> hugging other person
+  12x  tear up paper                  -> brushing teeth
+  12x  wipe face                      -> nod head/bow
+  12x  point finger at other          -> rub two hands together
+  11x  drop                           -> touch head (headache)
+  11x  take off a shoe                -> nausea/vomiting
+  11x  touch back (backache)          -> falling down
+  11x  nausea/vomiting                -> brushing hair
+  11x  pushing other person           -> taking a selfie
+  10x  drink water                    -> rub two hands together
+  10x  drink water                    -> touch other's pocket
+  10x  eat meal/snack                 -> wear on glasses
+  10x  brushing teeth                 -> point finger at other
+  10x  pickup                         -> touch chest (pain)
+  10x  clapping                       -> drop
+  10x  wear a shoe                    -> nod head/bow
+  10x  wear on glasses                -> giving something
+  10x  put on a hat/cap               -> put the palms together
+  10x  hand waving                    -> type on a keyboard

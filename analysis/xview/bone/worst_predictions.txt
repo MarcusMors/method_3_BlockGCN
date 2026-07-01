@@ -1,0 +1,22 @@
+Top Confused Pairs for bone on NTU60 xview
+======================================================================
+  13x  standing up (from sitting)     -> writing
+  13x  reading                        -> wear jacket
+  13x  cheer up                       -> kicking something
+  13x  jump up                        -> rub two hands together
+  13x  pat on back of other           -> wear a shoe
+  13x  walking apart from other       -> cheer up
+  12x  brushing teeth                 -> reach into pocket
+  12x  writing                        -> take off jacket
+  12x  tear up paper                  -> wear a shoe
+  12x  take off a shoe                -> reach into pocket
+  12x  playing with phone             -> staggering
+  12x  nod head/bow                   -> shake head
+  12x  cross hands in front           -> touch back (backache)
+  12x  kicking other person           -> taking a selfie
+  11x  eat meal/snack                 -> touch chest (pain)
+  11x  brushing hair                  -> hopping (one foot)
+  11x  brushing hair                  -> giving something
+  11x  pickup                         -> take off jacket
+  11x  pickup                         -> make a phone call
+  11x  throw                          -> cheer up

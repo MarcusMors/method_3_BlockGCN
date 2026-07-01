@@ -1,0 +1,22 @@
+Top Confused Pairs for vel on NTU60 xview
+======================================================================
+  13x  reading                        -> wear jacket
+  13x  cheer up                       -> kicking something
+  13x  cross hands in front           -> point to something
+  13x  giving something               -> type on a keyboard
+  13x  walking apart from other       -> cheer up
+  12x  drink water                    -> sneeze/cough
+  12x  eat meal/snack                 -> point finger at other
+  12x  brushing teeth                 -> playing with phone
+  12x  take off jacket                -> writing
+  12x  take off glasses               -> touch chest (pain)
+  12x  hopping (one foot)             -> pushing other person
+  12x  playing with phone             -> staggering
+  12x  salute                         -> touch head (headache)
+  12x  cross hands in front           -> touch back (backache)
+  12x  falling down                   -> writing
+  12x  touch chest (pain)             -> take off glasses
+  12x  use a fan                      -> writing
+  11x  eat meal/snack                 -> nausea/vomiting
+  11x  brushing teeth                 -> reach into pocket
+  11x  brushing hair                  -> hopping (one foot)

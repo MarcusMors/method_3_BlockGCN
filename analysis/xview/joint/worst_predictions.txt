@@ -1,0 +1,22 @@
+Top Confused Pairs for joint on NTU60 xview
+======================================================================
+  13x  eat meal/snack                 -> touch chest (pain)
+  13x  reading                        -> wear jacket
+  13x  tear up paper                  -> wear a shoe
+  13x  cheer up                       -> kicking something
+  13x  playing with phone             -> staggering
+  13x  cross hands in front           -> touch back (backache)
+  13x  walking apart from other       -> cheer up
+  12x  brushing teeth                 -> reach into pocket
+  12x  sitting down                   -> eat meal/snack
+  12x  writing                        -> take off jacket
+  12x  hopping (one foot)             -> pushing other person
+  12x  jump up                        -> rub two hands together
+  12x  nod head/bow                   -> shake head
+  12x  pat on back of other           -> wear a shoe
+  12x  giving something               -> type on a keyboard
+  12x  handshaking                    -> taking a selfie
+  11x  eat meal/snack                 -> take off a shoe
+  11x  brushing hair                  -> eat meal/snack
+  11x  brushing hair                  -> hopping (one foot)
+  11x  brushing hair                  -> touch head (headache)

@@ -1,0 +1,22 @@
+Top Confused Pairs for bone_vel on NTU60 xview
+======================================================================
+  13x  reading                        -> wear jacket
+  13x  cheer up                       -> kicking something
+  13x  walking apart from other       -> cheer up
+  12x  eat meal/snack                 -> touch chest (pain)
+  12x  eat meal/snack                 -> nausea/vomiting
+  12x  brushing teeth                 -> reach into pocket
+  12x  writing                        -> take off jacket
+  12x  tear up paper                  -> wear a shoe
+  12x  take off jacket                -> writing
+  12x  take off jacket                -> touch other's pocket
+  12x  playing with phone             -> staggering
+  12x  nod head/bow                   -> shake head
+  12x  cross hands in front           -> point to something
+  12x  cross hands in front           -> touch back (backache)
+  12x  touch chest (pain)             -> take off glasses
+  12x  punching/slapping              -> writing
+  11x  drink water                    -> sneeze/cough
+  11x  eat meal/snack                 -> pickup
+  11x  brushing teeth                 -> playing with phone
+  11x  brushing hair                  -> hopping (one foot)

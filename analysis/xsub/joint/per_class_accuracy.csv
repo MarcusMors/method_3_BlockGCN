@@ -1,0 +1,61 @@
+class_idx,action_name,group,correct,total,accuracy
+0,drink water,Daily,2,274,0.007299
+1,eat meal/snack,Daily,3,275,0.010909
+2,brushing teeth,Daily,3,273,0.010989
+3,brushing hair,Daily,5,273,0.018315
+4,drop,Daily,3,275,0.010909
+5,pickup,Daily,2,275,0.007273
+6,throw,Daily,3,275,0.010909
+7,sitting down,Daily,3,273,0.010989
+8,standing up (from sitting),Daily,2,273,0.007326
+9,clapping,Daily,5,273,0.018315
+10,reading,Daily,5,273,0.018315
+11,writing,Daily,5,272,0.018382
+12,tear up paper,Daily,7,271,0.025830
+13,wear jacket,Daily,7,275,0.025455
+14,take off jacket,Daily,7,276,0.025362
+15,wear a shoe,Daily,5,273,0.018315
+16,take off a shoe,Daily,4,274,0.014599
+17,wear on glasses,Daily,6,273,0.021978
+18,take off glasses,Daily,5,274,0.018248
+19,put on a hat/cap,Daily,2,272,0.007353
+20,take off a hat/cap,Daily,2,273,0.007326
+21,cheer up,Daily,3,274,0.010949
+22,hand waving,Daily,1,274,0.003650
+23,kicking something,Daily,1,276,0.003623
+24,reach into pocket,Daily,3,274,0.010949
+25,hopping (one foot),Daily,2,275,0.007273
+26,jump up,Daily,2,276,0.007246
+27,make a phone call,Health,0,275,0.000000
+28,playing with phone,Health,5,275,0.018182
+29,type on a keyboard,Health,11,275,0.040000
+30,point to something,Health,6,276,0.021739
+31,taking a selfie,Health,5,276,0.018116
+32,check time (from watch),Health,3,276,0.010870
+33,rub two hands together,Health,5,276,0.018116
+34,nod head/bow,Health,5,276,0.018116
+35,shake head,Health,4,275,0.014545
+36,wipe face,Health,6,276,0.021739
+37,salute,Health,5,276,0.018116
+38,put the palms together,Health,6,276,0.021739
+39,cross hands in front,Health,5,276,0.018116
+40,sneeze/cough,Health,7,276,0.025362
+41,staggering,Mutual,7,276,0.025362
+42,falling down,Mutual,7,275,0.025455
+43,touch head (headache),Mutual,9,276,0.032609
+44,touch chest (pain),Mutual,9,276,0.032609
+45,touch back (backache),Mutual,7,276,0.025362
+46,touch neck (neckache),Mutual,7,276,0.025362
+47,nausea/vomiting,Mutual,9,275,0.032727
+48,use a fan,Mutual,7,275,0.025455
+49,punching/slapping,Mutual,8,274,0.029197
+50,kicking other person,Mutual,5,276,0.018116
+51,pushing other person,Mutual,4,276,0.014493
+52,pat on back of other,Mutual,4,276,0.014493
+53,point finger at other,Mutual,2,276,0.007246
+54,hugging other person,Mutual,4,274,0.014599
+55,giving something,Mutual,2,276,0.007246
+56,touch other's pocket,Mutual,4,275,0.014545
+57,handshaking,Mutual,2,276,0.007246
+58,walking towards other,Mutual,4,273,0.014652
+59,walking apart from other,Mutual,2,276,0.007246

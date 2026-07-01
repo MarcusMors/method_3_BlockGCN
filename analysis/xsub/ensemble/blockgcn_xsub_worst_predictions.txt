@@ -1,0 +1,22 @@
+Top Confused Pairs — Ensemble on NTU60 xsub
+======================================================================
+  12x  point finger at other          -> rub two hands together
+  12x  walking towards other          -> hugging other person
+  11x  drop                           -> touch head (headache)
+  11x  take off a shoe                -> nausea/vomiting
+  11x  shake head                     -> type on a keyboard
+  11x  wipe face                      -> nod head/bow
+  11x  touch back (backache)          -> falling down
+  11x  touch other's pocket           -> wear on glasses
+  11x  handshaking                    -> salute
+  10x  brushing teeth                 -> point finger at other
+  10x  pickup                         -> touch chest (pain)
+  10x  clapping                       -> drop
+  10x  tear up paper                  -> brushing teeth
+  10x  wear a shoe                    -> nod head/bow
+  10x  wear on glasses                -> giving something
+  10x  put on a hat/cap               -> put the palms together
+  10x  hand waving                    -> nod head/bow
+  10x  type on a keyboard             -> pat on back of other
+  10x  check time (from watch)        -> take off jacket
+  10x  check time (from watch)        -> rub two hands together
